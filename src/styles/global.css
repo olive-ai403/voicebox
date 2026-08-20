@@ -49,13 +49,15 @@ p {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+  padding-left: var(--spacing-lg);
+  padding-right: var(--spacing-lg);
   width: 100%;
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0 var(--spacing-xl);
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
   }
 }
 
