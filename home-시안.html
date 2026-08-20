@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리 동네 목소리함 - 홈 화면 시안</title>
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --color-primary:#005B4D;
+    --color-on-primary:#FFFFFF;
+    --color-primary-container:#DCEFE6;
+    --color-on-primary-container:#00382E;
+    --color-secondary:#F2B24A;
+    --color-on-secondary:#4A2E00;
+    --color-secondary-container:#FFDFAE;
+    --color-on-secondary-container:#5C3D00;
+    --color-tertiary-container:#D3E4EE;
+    --color-on-tertiary-container:#1A3A4C;
+    --color-background:#F7F3E8;
+    --color-on-background:#1E2622;
+    --color-surface-lowest:#FFFEF9;
+    --color-surface-low:#F2EDDE;
+    --color-surface-high:#E6DEC9;
+    --color-on-surface-variant:#5B6B62;
+    --color-outline-variant:#D8D2C0;
+    --shadow-1:0 1px 3px rgba(30,38,34,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+    background:var(--color-background);
+    color:var(--color-on-background);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;cursor:pointer;}
+  h1,h2,h3,p{margin:0;}
+  .container{max-width:1200px;margin:0 auto;padding:0 20px;}
+
+  /* ── 시안 안내(실제 서비스 화면이 아닌 확인용 문구) ── */
+  .notice-bar{background:var(--color-on-background);padding:8px 20px;}
+  .notice-bar p{max-width:1200px;margin:0 auto;font-size:11px;color:rgba(255,255,255,.55);}
+
+  /* ── 헤더 ── */
+  .site-header{background:var(--color-primary);color:var(--color-on-primary);padding:14px 0;}
+  .site-header .container{display:flex;align-items:center;gap:10px;}
+  .header-icon{width:36px;height:36px;border-radius:8px;flex-shrink:0;}
+  .header-org{font-size:15px;font-weight:700;line-height:1.3;}
+  .header-org small{display:block;font-size:11px;font-weight:400;opacity:.75;margin-top:1px;}
+
+  /* ── 히어로: 1안 레이아웃(강한 톤 배경) + 2안 문구 ── */
+  .hero{background:var(--color-primary);color:var(--color-on-primary);padding:40px 0;}
+  .hero-inner{max-width:640px;}
+  .hero h1{font-weight:800;font-size:28px;line-height:1.35;margin-bottom:14px;}
+  .hero p{font-size:14.5px;opacity:.92;margin-bottom:24px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px;}
+  .btn-accent{background:var(--color-secondary);color:var(--color-on-secondary);}
+
+  /* ── 필터 ── */
+  .filter-section{padding:20px 0;}
+  .filter-group{margin-bottom:14px;}
+  .filter-group:last-of-type{margin-bottom:0;}
+  .filter-label{display:block;font-size:12px;font-weight:700;color:var(--color-on-surface-variant);margin-bottom:8px;letter-spacing:.02em;}
+  .filter-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .status-filter{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;}
+  .filter-chip{padding:8px 14px;border-radius:9999px;font-size:13px;font-weight:600;border:1px solid var(--color-outline-variant);background:var(--color-surface-lowest);color:var(--color-on-surface-variant);white-space:nowrap;}
+  .status-chip.active{background:var(--color-primary);color:var(--color-on-primary);border-color:transparent;}
+  .status-chip[data-status="접수"].active{background:var(--color-tertiary-container);color:var(--color-on-tertiary-container);}
+  .status-chip[data-status="처리중"].active{background:var(--color-secondary-container);color:var(--color-on-secondary-container);}
+  .status-chip[data-status="완료"].active{background:var(--color-primary-container);color:var(--color-on-primary-container);}
+  .category-chip-btn.active{background:var(--color-primary);color:var(--color-on-primary);border-color:transparent;}
+  .result-count{font-size:13px;color:var(--color-on-surface-variant);margin:14px 0 0;}
+
+  /* ── 카드 안 배지·칩 ── */
+  .card-toprow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+  .badge{padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:700;}
+  .chip{padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:600;background:var(--color-surface-high);color:var(--color-on-surface-variant);border:1px solid var(--color-outline-variant);}
+
+  /* ── 사진 자리표시자 ── */
+  .photo-placeholder{background:linear-gradient(135deg,#DCDCDC,#C6C6C6);color:#8F8F8F;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+  .photo-placeholder svg{width:50%;height:50%;}
+
+  /* ── 목록 영역: 정보 우선(빽빽하게, 사진 작게) ── */
+  .list-section{padding:8px 0 56px;}
+  .grid{display:grid;grid-template-columns:1fr;gap:10px;}
+  @media (min-width:600px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media (min-width:1024px){.grid{grid-template-columns:repeat(4,1fr);}}
+  .card{background:var(--color-surface-lowest);border:1px solid var(--color-outline-variant);border-radius:8px;padding:10px;}
+  .card-row{display:flex;gap:10px;}
+  .card-photo{width:56px;height:56px;border-radius:8px;}
+  .card-body{min-width:0;flex:1;}
+  .card-title{font-size:13.5px;font-weight:700;line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .card-excerpt{font-size:12px;color:var(--color-on-surface-variant);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;}
+  .card-meta{font-size:11px;color:var(--color-on-surface-variant);}
+  .card .badge,.card .chip{font-size:10px;padding:3px 8px;}
+  .empty-state{display:none;text-align:center;padding:60px 20px;color:var(--color-on-surface-variant);font-size:14px;}
+
+  /* ── 푸터 ── */
+  .site-footer{background:var(--color-on-background);color:rgba(255,255,255,.75);padding:28px 0;font-size:12px;}
+  .site-footer .container{display:flex;flex-direction:column;gap:4px;}
+
+  @media (max-width:480px){
+    .container{padding:0 16px;}
+    .hero{padding:32px 0;}
+    .hero h1{font-size:22px;}
+    .btn{width:100%;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="notice-bar">
+    <p>정적 시안입니다. '의견 남기기' 버튼은 동작하지 않고, 필터는 화면 확인용으로만 작동해요.</p>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <img src="icons/icon-192.png" alt="" class="header-icon">
+      <div class="header-org">오늘도가게<small>협동상회협동조합</small></div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>동네에서 겪은 불편, 편하게 알려주세요</h1>
+      <p>골목 가로등이 꺼져 있거나 놀이터 시설이 고장났을 때처럼, 생활 속에서 발견한 문제나 제안을 글로 남겨주시면 오늘도가게가 모아서 처리하고 그 결과를 다시 알려드립니다.</p>
+      <a href="#" class="btn btn-accent">의견 남기기</a>
+    </div>
+  </section>
+
+  <section class="filter-section container">
+    <div class="filter-group">
+      <span class="filter-label">처리 상태</span>
+      <div class="filter-row status-filter" role="group" aria-label="처리 상태 필터">
+        <button class="filter-chip status-chip active" data-status="전체">전체</button>
+        <button class="filter-chip status-chip" data-status="접수">접수</button>
+        <button class="filter-chip status-chip" data-status="처리중">처리중</button>
+        <button class="filter-chip status-chip" data-status="완료">완료</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">분야</span>
+      <div class="filter-row category-filter" role="group" aria-label="분야 필터">
+        <button class="filter-chip category-chip-btn active" data-category="전체">전체</button>
+        <button class="filter-chip category-chip-btn" data-category="가로등·전기">가로등·전기</button>
+        <button class="filter-chip category-chip-btn" data-category="놀이터·시설">놀이터·시설</button>
+        <button class="filter-chip category-chip-btn" data-category="도로·보행로">도로·보행로</button>
+        <button class="filter-chip category-chip-btn" data-category="환경·청소">환경·청소</button>
+        <button class="filter-chip category-chip-btn" data-category="공원·시설">공원·시설</button>
+      </div>
+    </div>
+    <p class="result-count">총 5건</p>
+  </section>
+
+  <section class="list-section container">
+    <div class="grid" id="grid"></div>
+    <p class="empty-state">조건에 맞는 글이 없어요.</p>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>오늘도가게(협동상회협동조합) · 우리 동네 목소리함</span>
+      <span>© 2026 오늘도가게. 이 화면은 홈 시안입니다.</span>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  var STATUS_META = {
+    '접수': { bg:'var(--color-tertiary-container)', fg:'var(--color-on-tertiary-container)' },
+    '처리중': { bg:'var(--color-secondary-container)', fg:'var(--color-on-secondary-container)' },
+    '완료': { bg:'var(--color-primary-container)', fg:'var(--color-on-primary-container)' }
+  };
+
+  var POSTS = [
+    { title:'재활용 분리수거장이 매번 지저분해요', excerpt:'분리수거장 주변에 쓰레기가 항상 널려있어서 냄새도 나고 보기 안 좋아요. 관리가 필요합니다.', category:'환경·청소', status:'접수', author:'최하*', date:'2026.08.19' },
+    { title:'골목 가로등이 며칠째 안 켜져요', excerpt:'저녁에 골목을 지나는데 가로등이 계속 꺼져 있어서 너무 어둡고 무서워요. 확인 부탁드립니다.', category:'가로등·전기', status:'접수', author:'김민*', date:'2026.08.18' },
+    { title:'놀이터 그네가 삐걱거리고 흔들려요', excerpt:'아이들이 타는 그네 축 부분에서 계속 삐걱거리는 소리가 나고 흔들림이 심해요. 안전 점검이 필요할 것 같아요.', category:'놀이터·시설', status:'처리중', author:'박도*', date:'2026.08.15' },
+    { title:'공원 벤치 페인트가 벗겨져서 옷에 묻어요', excerpt:'공원 벤치에 앉았다가 옷에 페인트가 묻었어요. 재도색이 필요할 것 같습니다.', category:'공원·시설', status:'처리중', author:'정유*', date:'2026.08.12' },
+    { title:'인도 보도블록이 깨져서 걸려 넘어질 뻔했어요', excerpt:'마트 앞 보도블록 한 칸이 깨진 채 방치되어 있어 넘어질 뻔했습니다. 빠른 정비 부탁드립니다.', category:'도로·보행로', status:'완료', author:'이서*', date:'2026.08.10' }
+  ];
+
+  var PHOTO_ICON = '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4" y="8" width="40" height="32" rx="4" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="18" r="3" stroke="currentColor" stroke-width="2"/><path d="M6 34L17 24L25 31L33 22L42 32" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function cardHTML(post){
+    var m = STATUS_META[post.status];
+    var badge = '<span class="badge status-badge" style="background:' + m.bg + ';color:' + m.fg + '">' + post.status + '</span>';
+    var chip = '<span class="chip">' + post.category + '</span>';
+    return '<article class="card" data-status="' + post.status + '" data-category="' + post.category + '">' +
+      '<div class="card-row">' +
+        '<div class="photo-placeholder card-photo">' + PHOTO_ICON + '</div>' +
+        '<div class="card-body">' +
+          '<div class="card-toprow">' + badge + chip + '</div>' +
+          '<h3 class="card-title">' + post.title + '</h3>' +
+          '<p class="card-excerpt">' + post.excerpt + '</p>' +
+          '<div class="card-meta">' + post.author + ' · ' + post.date + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
+
+  var grid = document.getElementById('grid');
+  grid.innerHTML = POSTS.map(cardHTML).join('');
+
+  var statusBtns = document.querySelectorAll('.status-chip');
+  var categoryBtns = document.querySelectorAll('.category-chip-btn');
+  var countEl = document.querySelector('.result-count');
+  var emptyEl = document.querySelector('.empty-state');
+
+  function apply(){
+    var activeStatus = document.querySelector('.status-chip.active').getAttribute('data-status');
+    var activeCategory = document.querySelector('.category-chip-btn.active').getAttribute('data-category');
+    var cards = document.querySelectorAll('.card');
+    var visible = 0;
+    cards.forEach(function(card){
+      var match = (activeStatus === '전체' || card.getAttribute('data-status') === activeStatus) &&
+                  (activeCategory === '전체' || card.getAttribute('data-category') === activeCategory);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    if (countEl) countEl.textContent = '총 ' + visible + '건';
+    if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  statusBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      statusBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      apply();
+    });
+  });
+  categoryBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      categoryBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      apply();
+    });
+  });
+
+  apply();
+})();
+</script>
+</body>
+</html>

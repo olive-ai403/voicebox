@@ -1,0 +1,104 @@
+:root {
+  /* colors — design.md */
+  --color-background: #f7f3e8;
+  --color-on-background: #1e2622;
+  --color-surface-container-lowest: #fffef9;
+  --color-surface-container-low: #f2edde;
+  --color-surface-container-high: #e6dec9;
+  --color-on-surface: #1e2622;
+  --color-on-surface-variant: #5b6b62;
+  --color-inverse-on-surface: #f3f7f2;
+  --color-outline: #7c8c82;
+  --color-outline-variant: #d8d2c0;
+  --color-primary: #005b4d;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #dcefe6;
+  --color-on-primary-container: #00382e;
+  --color-on-primary-fixed-variant: #00382e;
+  --color-secondary: #f2b24a;
+  --color-on-secondary: #4a2e00;
+  --color-secondary-container: #ffdfae;
+  --color-on-secondary-container: #5c3d00;
+  --color-tertiary-container: #d3e4ee;
+  --color-on-tertiary-container: #1a3a4c;
+  --color-error: #b3261e;
+  --color-on-error: #ffffff;
+
+  /* typography — design.md (11 steps) */
+  --font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont,
+    'Malgun Gothic', sans-serif;
+
+  --text-headline-lg-size: 28px;
+  --text-headline-lg-line: 36px;
+  --text-headline-lg-weight: 800;
+  --text-headline-lg-tracking: -0.01em;
+
+  --text-headline-md-size: 22px;
+  --text-headline-md-line: 30px;
+  --text-headline-md-weight: 700;
+
+  --text-title-sm-size: 18px;
+  --text-title-sm-line: 26px;
+  --text-title-sm-weight: 600;
+
+  --text-title-xs-size: 15px;
+  --text-title-xs-line: 21px;
+  --text-title-xs-weight: 700;
+
+  --text-body-lg-size: 16px;
+  --text-body-lg-line: 26px;
+  --text-body-lg-weight: 400;
+
+  --text-body-md-size: 14px;
+  --text-body-md-line: 22px;
+  --text-body-md-weight: 400;
+
+  --text-body-sm-size: 13px;
+  --text-body-sm-line: 19px;
+  --text-body-sm-weight: 400;
+
+  --text-label-md-size: 13px;
+  --text-label-md-line: 18px;
+  --text-label-md-weight: 500;
+  --text-label-md-tracking: 0.01em;
+
+  --text-label-sm-size: 11px;
+  --text-label-sm-line: 14px;
+  --text-label-sm-weight: 500;
+  --text-label-sm-tracking: 0.02em;
+
+  --text-button-lg-size: 16px;
+  --text-button-lg-line: 24px;
+  --text-button-lg-weight: 700;
+
+  --text-button-sm-size: 14px;
+  --text-button-sm-line: 20px;
+  --text-button-sm-weight: 600;
+
+  /* rounded — design.md */
+  --rounded-sm: 6px;
+  --rounded-default: 8px;
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+  --rounded-xl: 24px;
+  --rounded-full: 9999px;
+
+  /* spacing — design.md (6 steps) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --spacing-xxl: 64px;
+  --spacing-gutter: var(--spacing-sm);
+  --spacing-margin: var(--spacing-lg);
+
+  /* elevation — design.md (4 levels) */
+  --elevation-1: 0 1px 3px rgba(30, 38, 34, 0.08);
+  --elevation-2: 0 4px 12px rgba(30, 38, 34, 0.1);
+  --elevation-3: 0 8px 24px rgba(30, 38, 34, 0.14);
+
+  /* breakpoints (referenced in CSS via media queries, kept here for docs) */
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+}

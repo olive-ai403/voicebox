@@ -1,0 +1,40 @@
+.header {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  padding: var(--spacing-md) 0;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: inherit;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--rounded-default);
+  flex-shrink: 0;
+}
+
+.orgName {
+  font-size: var(--text-title-xs-size);
+  line-height: var(--text-title-xs-line);
+  font-weight: var(--text-title-xs-weight);
+  display: flex;
+  flex-direction: column;
+}
+
+.orgSubtitle {
+  font-size: var(--text-label-sm-size);
+  line-height: var(--text-label-sm-line);
+  font-weight: 400;
+  opacity: 0.75;
+  margin-top: 1px;
+}

@@ -1,0 +1,26 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--rounded-full);
+  font-size: var(--text-label-sm-size);
+  line-height: var(--text-label-sm-line);
+  font-weight: var(--text-label-sm-weight);
+  letter-spacing: var(--text-label-sm-tracking);
+  white-space: nowrap;
+}
+
+.received {
+  background: var(--color-tertiary-container);
+  color: var(--color-on-tertiary-container);
+}
+
+.inProgress {
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+.done {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}

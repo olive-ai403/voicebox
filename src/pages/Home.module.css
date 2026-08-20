@@ -1,0 +1,38 @@
+.filterSection {
+  padding: var(--spacing-lg) 0;
+}
+
+.resultCount {
+  font-size: var(--text-body-sm-size);
+  color: var(--color-on-surface-variant);
+  margin: var(--spacing-md) 0 0;
+}
+
+.listSection {
+  padding: var(--spacing-sm) 0 var(--spacing-xxl);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-sm);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: var(--spacing-xxl) var(--spacing-md);
+  color: var(--color-on-surface-variant);
+  font-size: var(--text-body-md-size);
+}
