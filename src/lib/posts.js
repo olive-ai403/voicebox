@@ -39,11 +39,11 @@ export async function fetchPostById(id) {
 export async function uploadPhoto(file) {
   const ext = file.name.split('.').pop()
   const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-  const { error } = await supabase.storage.from('post-photos').upload(path, file)
+  const { error } = await supabase.storage.from('photos').upload(path, file)
   if (error) throw error
   const {
     data: { publicUrl },
-  } = supabase.storage.from('post-photos').getPublicUrl(path)
+  } = supabase.storage.from('photos').getPublicUrl(path)
   return publicUrl
 }
 
