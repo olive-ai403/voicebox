@@ -1,13 +1,31 @@
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { POSTS } from '../data/posts'
 import StatusBadge from '../components/StatusBadge'
 import CategoryChip from '../components/CategoryChip'
 import PhotoPlaceholder from '../components/PhotoPlaceholder'
+import { fetchPostById } from '../lib/posts'
 import styles from './PostDetail.module.css'
 
 export default function PostDetail() {
   const { id } = useParams()
-  const post = POSTS.find((p) => String(p.id) === id)
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    fetchPostById(id)
+      .then(setPost)
+      .catch(() => setPost(null))
+      .finally(() => setLoading(false))
+  }, [id])
+
+  if (loading) {
+    return (
+      <main className={`container ${styles.page}`}>
+        <p className={styles.notFound}>불러오는 중...</p>
+      </main>
+    )
+  }
 
   if (!post) {
     return (
