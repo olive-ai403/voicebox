@@ -59,6 +59,12 @@
   border-color: var(--color-error);
 }
 
+.readonlyField {
+  font-size: var(--text-body-md-size);
+  line-height: var(--text-body-md-line);
+  color: var(--color-on-surface-variant);
+}
+
 .errorMessage {
   font-size: var(--text-label-md-size);
   color: var(--color-error);

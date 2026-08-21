@@ -18,6 +18,7 @@ function mapPost(row) {
     status: row.status,
     photo: row.photo_urls?.[0] ?? null,
     date: formatDate(row.created_at),
+    userId: row.user_id,
   }
 }
 
@@ -36,6 +37,16 @@ export async function fetchPostById(id) {
   return mapPost(data)
 }
 
+export async function fetchPostsByUser(userId) {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  return data.map(mapPost)
+}
+
 export async function uploadPhoto(file) {
   const ext = file.name.split('.').pop()
   const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
@@ -47,13 +58,27 @@ export async function uploadPhoto(file) {
   return publicUrl
 }
 
-export async function createPost({ title, content, author, category, photoUrl }) {
+export async function createPost({ title, content, author, userId, category, photoUrl }) {
   const { error } = await supabase.from('posts').insert({
     title,
     content,
     author,
+    user_id: userId,
     category,
     photo_urls: photoUrl ? [photoUrl] : [],
   })
+  if (error) throw error
+}
+
+export async function updatePost(id, { title, content, category, photoUrl }) {
+  const { error } = await supabase
+    .from('posts')
+    .update({ title, content, category, photo_urls: photoUrl ? [photoUrl] : [] })
+    .eq('id', id)
+  if (error) throw error
+}
+
+export async function deletePost(id) {
+  const { error } = await supabase.from('posts').delete().eq('id', id)
   if (error) throw error
 }

@@ -7,6 +7,7 @@
 .inner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .brand {
@@ -37,4 +38,61 @@
   font-weight: 400;
   opacity: 0.75;
   margin-top: 1px;
+}
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.loginButton,
+.signupButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-button-sm-size);
+  font-weight: var(--text-button-sm-weight);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--rounded-md);
+  white-space: nowrap;
+}
+
+.loginButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: var(--color-on-primary);
+}
+
+.signupButton {
+  background: var(--color-on-primary);
+  color: var(--color-primary);
+  border: 1px solid transparent;
+}
+
+.avatarLink {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.avatarFallback {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  background: var(--color-secondary);
+  color: var(--color-on-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-label-md-size);
+  font-weight: 700;
 }

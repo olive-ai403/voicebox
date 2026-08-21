@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom'
 import styles from './Header.module.css'
+import { useAuth } from '../lib/AuthContext'
 
 export default function Header() {
+  const { user } = useAuth()
+  const avatarUrl = user?.user_metadata?.avatar_url
+  const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || '내 정보'
+
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
@@ -12,6 +17,25 @@ export default function Header() {
             <small className={styles.orgSubtitle}>협동상회협동조합</small>
           </span>
         </Link>
+
+        {user ? (
+          <Link to="/mypage" className={styles.avatarLink} aria-label="마이페이지">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="" className={styles.avatar} />
+            ) : (
+              <span className={styles.avatarFallback}>{displayName.slice(0, 1)}</span>
+            )}
+          </Link>
+        ) : (
+          <div className={styles.authButtons}>
+            <Link to="/login" className={styles.loginButton}>
+              로그인
+            </Link>
+            <Link to="/signup" className={styles.signupButton}>
+              회원가입
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   )
