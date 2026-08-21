@@ -4,6 +4,7 @@ import PhotoUpload from '../components/PhotoUpload'
 import { CATEGORIES } from '../data/posts'
 import { createPost, updatePost, uploadPhoto, fetchPostById } from '../lib/posts'
 import { useAuth } from '../lib/AuthContext'
+import { useToast } from '../lib/ToastContext'
 import styles from './Write.module.css'
 
 export default function Write() {
@@ -11,6 +12,7 @@ export default function Write() {
   const isEdit = Boolean(id)
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { showToast } = useToast()
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -21,6 +23,7 @@ export default function Write() {
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [loading, setLoading] = useState(isEdit)
+  const [aiLoading, setAiLoading] = useState(false)
 
   const authorName = user.user_metadata?.full_name || user.user_metadata?.name || user.email
 
@@ -52,6 +55,37 @@ export default function Write() {
     setPhotoFile(null)
     setPreviewUrl(null)
     setExistingPhoto(null)
+  }
+
+  async function handleAiAssist() {
+    if (!content.trim()) {
+      setErrors((prev) => ({ ...prev, ai: '다듬을 내용을 먼저 입력해주세요' }))
+      return
+    }
+
+    setAiLoading(true)
+    setErrors((prev) => ({ ...prev, ai: undefined }))
+    try {
+      const res = await fetch('/api/generate-post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: content }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'AI 요청 실패')
+
+      setTitle(data.title)
+      setContent(data.content)
+      setCategory(CATEGORIES.includes(data.category) ? data.category : CATEGORIES[0])
+      showToast('AI가 글을 다듬었어요.')
+    } catch (err) {
+      setErrors((prev) => ({
+        ...prev,
+        ai: 'AI 작성에 실패했어요. 잠시 후 다시 시도해주세요.',
+      }))
+    } finally {
+      setAiLoading(false)
+    }
   }
 
   async function handleSubmit(e) {
@@ -116,17 +150,28 @@ export default function Write() {
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label} htmlFor="content">
-            내용
-          </label>
+          <div className={styles.labelRow}>
+            <label className={styles.label} htmlFor="content">
+              내용
+            </label>
+            <button
+              type="button"
+              className={styles.aiButton}
+              onClick={handleAiAssist}
+              disabled={aiLoading}
+            >
+              {aiLoading ? 'AI가 다듬는 중...' : 'AI 작성도우미'}
+            </button>
+          </div>
           <textarea
             id="content"
             className={`${styles.textarea} ${errors.content ? styles.inputError : ''}`}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="언제, 어디서, 어떤 일이 있었는지 알려주세요."
+            placeholder="언제, 어디서, 어떤 일이 있었는지 짧게라도 적어주세요. AI 작성도우미가 정식 민원 글로 다듬어드려요."
           />
           {errors.content && <p className={styles.errorMessage}>{errors.content}</p>}
+          {errors.ai && <p className={styles.errorMessage}>{errors.ai}</p>}
         </div>
 
         <div className={styles.field}>
