@@ -71,6 +71,21 @@
   border: 1px solid transparent;
 }
 
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.adminLink {
+  font-size: var(--text-label-md-size);
+  font-weight: var(--text-label-md-weight);
+  color: var(--color-on-primary);
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
 .avatarLink {
   display: inline-flex;
   flex-shrink: 0;

@@ -82,3 +82,8 @@ export async function deletePost(id) {
   const { error } = await supabase.from('posts').delete().eq('id', id)
   if (error) throw error
 }
+
+export async function updatePostStatus(id, status) {
+  const { error } = await supabase.from('posts').update({ status }).eq('id', id)
+  if (error) throw error
+}

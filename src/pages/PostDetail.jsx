@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import StatusBadge from '../components/StatusBadge'
 import CategoryChip from '../components/CategoryChip'
 import PhotoPlaceholder from '../components/PhotoPlaceholder'
-import { fetchPostById } from '../lib/posts'
+import { deletePost, fetchPostById } from '../lib/posts'
+import { useAuth } from '../lib/AuthContext'
 import styles from './PostDetail.module.css'
 
 export default function PostDetail() {
   const { id } = useParams()
+  const navigate = useNavigate()
+  const { user, isAdmin } = useAuth()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -18,6 +21,12 @@ export default function PostDetail() {
       .catch(() => setPost(null))
       .finally(() => setLoading(false))
   }, [id])
+
+  async function handleDelete() {
+    if (!window.confirm('이 글을 삭제할까요?')) return
+    await deletePost(post.id)
+    navigate('/')
+  }
 
   if (loading) {
     return (
@@ -37,6 +46,8 @@ export default function PostDetail() {
       </main>
     )
   }
+
+  const canDelete = user && (post.userId === user.id || isAdmin)
 
   return (
     <main className={`container ${styles.page}`}>
@@ -60,6 +71,12 @@ export default function PostDetail() {
         {post.author} · {post.date}
       </p>
       <p className={styles.content}>{post.content}</p>
+
+      {canDelete && (
+        <button type="button" className={styles.deleteButton} onClick={handleDelete}>
+          삭제
+        </button>
+      )}
     </main>
   )
 }

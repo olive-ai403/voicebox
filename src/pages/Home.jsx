@@ -3,8 +3,8 @@ import Hero from '../components/Hero'
 import StatusFilter from '../components/StatusFilter'
 import CategoryFilter from '../components/CategoryFilter'
 import PostCard from '../components/PostCard'
-import { CATEGORIES } from '../data/posts'
 import { fetchPosts } from '../lib/posts'
+import { fetchCategories } from '../lib/categories'
 import styles from './Home.module.css'
 
 const ALL = '전체'
@@ -13,12 +13,14 @@ export default function Home() {
   const [status, setStatus] = useState(ALL)
   const [category, setCategory] = useState(ALL)
   const [posts, setPosts] = useState([])
+  const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchPosts()
       .then(setPosts)
       .finally(() => setLoading(false))
+    fetchCategories().then((cats) => setCategories(cats.map((c) => c.name)))
   }, [])
 
   const filtered = useMemo(
@@ -37,7 +39,7 @@ export default function Home() {
 
       <section className={`container ${styles.filterSection}`}>
         <StatusFilter value={status} onChange={setStatus} />
-        <CategoryFilter value={category} onChange={setCategory} categories={CATEGORIES} />
+        <CategoryFilter value={category} onChange={setCategory} categories={categories} />
         <p className={styles.resultCount}>총 {filtered.length}건</p>
       </section>
 

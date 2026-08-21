@@ -6,6 +6,7 @@ const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const { showToast } = useToast()
 
@@ -15,6 +16,14 @@ export function AuthProvider({ children }) {
     } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null)
       setLoading(false)
+
+      if (session?.user) {
+        supabase
+          .rpc('is_admin')
+          .then(({ data }) => setIsAdmin(Boolean(data)))
+      } else {
+        setIsAdmin(false)
+      }
 
       if (event === 'SIGNED_IN' && session?.user) {
         const { created_at, last_sign_in_at } = session.user
@@ -41,7 +50,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, isAdmin, loading, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   )

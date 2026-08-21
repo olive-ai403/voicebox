@@ -1,12 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import RequireAuth from './components/RequireAuth'
+import RequireAdmin from './components/RequireAdmin'
 import Home from './pages/Home'
 import Write from './pages/Write'
 import PostDetail from './pages/PostDetail'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import MyPage from './pages/MyPage'
+import Admin from './pages/Admin'
 import { ToastProvider } from './lib/ToastContext'
 import { AuthProvider } from './lib/AuthContext'
 
@@ -43,6 +45,14 @@ export default function App() {
                   <RequireAuth>
                     <MyPage />
                   </RequireAuth>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <RequireAdmin>
+                    <Admin />
+                  </RequireAdmin>
                 }
               />
             </Route>

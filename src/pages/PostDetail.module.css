@@ -47,3 +47,14 @@
   font-size: var(--text-body-lg-size);
   margin-bottom: var(--spacing-md);
 }
+
+.deleteButton {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--rounded-md);
+  font-size: var(--text-button-sm-size);
+  font-weight: var(--text-button-sm-weight);
+  border: 1px solid var(--color-error);
+  background: transparent;
+  color: var(--color-error);
+}

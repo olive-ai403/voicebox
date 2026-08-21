@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import PhotoUpload from '../components/PhotoUpload'
-import { CATEGORIES } from '../data/posts'
 import { createPost, updatePost, uploadPhoto, fetchPostById } from '../lib/posts'
+import { fetchCategories } from '../lib/categories'
 import { useAuth } from '../lib/AuthContext'
 import { useToast } from '../lib/ToastContext'
 import styles from './Write.module.css'
@@ -16,7 +16,9 @@ export default function Write() {
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [category, setCategory] = useState(CATEGORIES[0])
+  const [category, setCategory] = useState('')
+  const [categories, setCategories] = useState([])
+  const [categoriesLoading, setCategoriesLoading] = useState(true)
   const [photoFile, setPhotoFile] = useState(null)
   const [previewUrl, setPreviewUrl] = useState(null)
   const [existingPhoto, setExistingPhoto] = useState(null)
@@ -26,6 +28,15 @@ export default function Write() {
   const [aiLoading, setAiLoading] = useState(false)
 
   const authorName = user.user_metadata?.full_name || user.user_metadata?.name || user.email
+
+  useEffect(() => {
+    fetchCategories()
+      .then((cats) => {
+        setCategories(cats)
+        if (!isEdit) setCategory(cats[0]?.name ?? '')
+      })
+      .finally(() => setCategoriesLoading(false))
+  }, [])
 
   useEffect(() => {
     if (!isEdit) return
@@ -76,7 +87,9 @@ export default function Write() {
 
       setTitle(data.title)
       setContent(data.content)
-      setCategory(CATEGORIES.includes(data.category) ? data.category : CATEGORIES[0])
+      setCategory(
+        categories.some((c) => c.name === data.category) ? data.category : categories[0]?.name ?? ''
+      )
       showToast('AI가 글을 다듬었어요.')
     } catch (err) {
       setErrors((prev) => ({
@@ -121,7 +134,7 @@ export default function Write() {
     }
   }
 
-  if (loading) {
+  if (loading || categoriesLoading) {
     return (
       <main className={`container ${styles.page}`}>
         <p>불러오는 중...</p>
@@ -189,9 +202,9 @@ export default function Write() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            {CATEGORIES.map((c) => (
-              <option key={c} value={c}>
-                {c}
+            {categories.map((c) => (
+              <option key={c.id} value={c.name}>
+                {c.name}
               </option>
             ))}
           </select>

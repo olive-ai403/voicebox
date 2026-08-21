@@ -3,7 +3,7 @@ import styles from './Header.module.css'
 import { useAuth } from '../lib/AuthContext'
 
 export default function Header() {
-  const { user } = useAuth()
+  const { user, isAdmin } = useAuth()
   const avatarUrl = user?.user_metadata?.avatar_url
   const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || '내 정보'
 
@@ -19,13 +19,20 @@ export default function Header() {
         </Link>
 
         {user ? (
-          <Link to="/mypage" className={styles.avatarLink} aria-label="마이페이지">
-            {avatarUrl ? (
-              <img src={avatarUrl} alt="" className={styles.avatar} />
-            ) : (
-              <span className={styles.avatarFallback}>{displayName.slice(0, 1)}</span>
+          <div className={styles.userArea}>
+            {isAdmin && (
+              <Link to="/admin" className={styles.adminLink}>
+                관리자
+              </Link>
             )}
-          </Link>
+            <Link to="/mypage" className={styles.avatarLink} aria-label="마이페이지">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="" className={styles.avatar} />
+              ) : (
+                <span className={styles.avatarFallback}>{displayName.slice(0, 1)}</span>
+              )}
+            </Link>
+          </div>
         ) : (
           <div className={styles.authButtons}>
             <Link to="/login" className={styles.loginButton}>
